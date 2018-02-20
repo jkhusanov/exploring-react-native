@@ -16,7 +16,7 @@ In this repo we will **explore the RN ecosystem** by **creating a React Native a
 - [ ] Create a simple React Native app using any two of the following three methods:
 - [ ] [Vanilla React Native](https://facebook.github.io/react-native/) **([GET STARTED](https://github.com/mobilespace/exploring-react-native#vanilla-react-native))**
 - [x] [CRNA](https://github.com/react-community/create-react-native-app) **([GET STARTED](https://github.com/mobilespace/exploring-react-native#crna))**
-- [ ] [Expo](https://expo.io) **([GET STARTED](https://github.com/mobilespace/exploring-react-native#expo))**
+- [x ] [Expo](https://expo.io) **([GET STARTED](https://github.com/mobilespace/exploring-react-native#expo))**
 - [ ] Create a [ScrollView](https://facebook.github.io/react-native/docs/scrollview.html) in your `CRNA` app with the following components:
 - [ ] [Image component](https://facebook.github.io/react-native/docs/image.html) - must use 3 different images in various sizes & positioned using flexbox
 - [ ] [Button component](https://facebook.github.io/react-native/docs/button.html) - must be able to toggle the background color of the container view
