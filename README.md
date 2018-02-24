@@ -20,7 +20,7 @@ In this repo we will **explore the RN ecosystem** by **creating a React Native a
 - [x] Create a [ScrollView](https://facebook.github.io/react-native/docs/scrollview.html) in your `CRNA` app with the following components:
 - [x] [Image component](https://facebook.github.io/react-native/docs/image.html) - must use 3 different images in various sizes & position them using flexbox
 - [x] [Button component](https://facebook.github.io/react-native/docs/button.html) - must be able to toggle the background color of the container view
-- [] [FlatList component](https://facebook.github.io/react-native/docs/flatlist.html) - must use the provide mockData [here](https://raw.githubusercontent.com/mobilespace/exploring-react-native/master/CRNA/constants.js) to create a list of all Community Members
+- [x] [FlatList component](https://facebook.github.io/react-native/docs/flatlist.html) - must use the provide mockData [here](https://raw.githubusercontent.com/mobilespace/exploring-react-native/master/CRNA/constants.js) to create a list of all Community Members
 - [x] [TextInput components](https://facebook.github.io/react-native/docs/textinput.html) - must allow the user to type the secret phrase & show an [Alert](https://facebook.github.io/react-native/docs/alert.html) if it's valid or not.
 - [ ] :star: **Bonus:** Use [WebView](https://facebook.github.io/react-native/docs/webview.html) component to open the community members Github profile
 - [ ] :star: **Bonus:** Use [Switch](https://facebook.github.io/react-native/docs/switch.html) component

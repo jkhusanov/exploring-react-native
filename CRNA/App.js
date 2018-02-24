@@ -1,5 +1,6 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, Image, Button, TextInput, Alert} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, Button, TextInput, Alert, FlatList} from 'react-native';
+import FlatListData from './components/FlatListData';
 
 import ROADSTER_FRONT from './images/roadster.png';
 import ROADSTER_BACK from './images/tesla-roadster-back.jpg';
@@ -25,11 +26,11 @@ export default class App extends React.Component {
   handleSubmit = () => {
     const {phrase}  = this.state
     //Display alert
-    if (phrase === 'Apple' || phrase === 'APPLE') {
+    if (phrase === 'Apple' || phrase === 'Tesla') {
       console.log("Correct Phrase Entered")
       Alert.alert(
         'Success',
-        'You entered correct phrace!',
+        'You entered correct phrase!',
         [
           {text: 'OK', onPress: () => console.log('OK Pressed')},
         ],
@@ -39,7 +40,7 @@ export default class App extends React.Component {
       console.log("Incorrect Phrase Entered")
       Alert.alert(
         'Invalid',
-        'You entered wrong phrace, try "Apple"!',
+        'You entered the wrong phrase, try "Apple"!',
         [
           {text: 'Try Again', onPress: () => console.log('Try Again Pressed')},
         ],
@@ -47,8 +48,15 @@ export default class App extends React.Component {
       )
     }
   }
-
-  
+  renderMembers(member) {
+    return (
+      <View style={styles.membersRowContainer} key={member}>
+        <Image source={{ url: member.image }} style={styles.avatar} />
+        <Text style={styles.nameLabel}>{member.name}</Text>
+        <Text style={styles.githubUsernameLabel}>@{member.github_username}</Text>
+      </View>
+    )
+  }
   render() {
     return (
       //ScrollView - Flex Column
@@ -94,8 +102,15 @@ export default class App extends React.Component {
             onSubmitEditing={this.handleSubmit}
           />
         </View>
-
-
+        {/* FlatList Container*/}
+        <View style={styles.flatListContainer}>
+          <FlatList
+            data={FlatListData}
+            keyExtractor={(item, index) => index}
+            renderItem={({ item }) => this.renderMembers(item)}
+            onPress={this.handleOpen}
+          />
+        </View>
       </ScrollView>
     );
   }
@@ -137,9 +152,9 @@ const styles = StyleSheet.create({
   },
   textInputContainer: {
     padding: 50,
-    height: 400,
+    height: 100,
     alignContent: 'center',
-    // justifyContent: 'center',
+    justifyContent: 'center',
 
   },
   textInput: {
@@ -150,5 +165,36 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     fontSize: 16,
   },
-
+  membersRowContainer: {
+    flexDirection: 'row',
+    height: 60,
+    alignItems: 'center',
+    backgroundColor: 'white',
+    borderTopWidth: 1,
+    borderColor: 'gray',
+  },
+  flatListContainer: {
+    backgroundColor: 'red',
+    justifyContent: 'center',
+    marginBottom: 50
+  },
+  avatar: {
+    height: 45,
+    width: 45,
+    borderRadius: 22,
+    marginLeft: 5
+  },
+  nameLabel: {
+    fontSize: 18,
+    color: '#003366',
+    marginLeft: 10,
+    fontWeight: 'bold'
+  },
+  githubUsernameLabel: {
+    flex: 1,
+    textAlign: 'right',
+    fontSize: 15,
+    color: '#4da6ff',
+    marginRight: 20,
+  },
 });
