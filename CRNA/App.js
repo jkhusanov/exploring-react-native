@@ -1,5 +1,5 @@
 import React from 'react';
-import { StyleSheet, Text, View, ScrollView, Image, Button, TextInput, Alert, FlatList} from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Image, Button, TextInput, Alert, FlatList, TouchableHighlight, WebView, Modal, Keyboard, TouchableOpacity} from 'react-native';
 import FlatListData from './components/FlatListData';
 
 import ROADSTER_FRONT from './images/roadster.png';
@@ -13,6 +13,9 @@ export default class App extends React.Component {
       backgroundColor: '#F6F6F6',
       text: '',
       phrase: '',
+      showWebView: false,
+      uri: '',
+      modalVisible: false,
     }
   }
 
@@ -20,7 +23,7 @@ export default class App extends React.Component {
     const randomColor = '#'+Math.floor(Math.random()*16777215).toString(16);
     console.log(randomColor);
     this.setState({
-    backgroundColor: randomColor
+      backgroundColor: randomColor
     })
   }
   handleSubmit = () => {
@@ -36,6 +39,7 @@ export default class App extends React.Component {
         ],
         { cancelable: false }
       )
+      // Keyboard.dismiss
     } else {
       console.log("Incorrect Phrase Entered")
       Alert.alert(
@@ -50,13 +54,46 @@ export default class App extends React.Component {
   }
   renderMembers(member) {
     return (
-      <View style={styles.membersRowContainer} key={member}>
-        <Image source={{ url: member.image }} style={styles.avatar} />
-        <Text style={styles.nameLabel}>{member.name}</Text>
-        <Text style={styles.githubUsernameLabel}>@{member.github_username}</Text>
-      </View>
+      <View>
+      { this.state.showWebView && this.renderContent() }
+      <TouchableHighlight
+        style={styles.button}
+        onPress={() => this.setState(
+          {showWebView: true},
+          this.setState({uri:'https://github.com/'+member.github_username}), 
+          console.log("Profile View pressed"),
+          this.openModal())}
+        >
+        <View style={styles.membersRowContainer} key={member}>
+          <Image source={{ url: member.image }} style={styles.avatar} />
+          <Text style={styles.nameLabel}>{member.name}</Text>
+          <Text style={styles.githubUsernameLabel}>@{member.github_username}</Text>
+        </View>
+    </TouchableHighlight>
+    </View>
     )
   }
+  renderContent() {
+    const { showWebView, uri } = this.state
+      if(showWebView) {
+        console.log("Website is active")
+        return (
+          <View style = {styles.container}>
+          <WebView
+            source = {{ uri}}
+          />
+          </View>
+        )
+    }
+  }
+  openModal() {
+    this.setState({modalVisible:true});
+  }
+
+  closeModal() {
+    this.setState({modalVisible:false});
+  }
+  
   render() {
     return (
       //ScrollView - Flex Column
@@ -84,11 +121,12 @@ export default class App extends React.Component {
           style={styles.toggleContainer}
           backgroundColor={this.state.backgroundColor}
         >
-          <Button 
-            style={styles.toggleButton}
-            title="Change background color"
-            onPress={this.handleClick}
-          /> 
+        <TouchableOpacity
+          style={styles.toggleButton}
+          onPress={this.handleClick}
+        >
+         <Text style={styles.toggleText}> Change background color </Text>
+        </TouchableOpacity>
         </View>
         {/* Input Container*/}
         <View style={styles.textInputContainer}>
@@ -108,8 +146,26 @@ export default class App extends React.Component {
             data={FlatListData}
             keyExtractor={(item, index) => index}
             renderItem={({ item }) => this.renderMembers(item)}
-            onPress={this.handleOpen}
           />
+        </View>
+        <Modal
+              visible={this.state.modalVisible}
+              animationType={'slide'}
+              onRequestClose={() => this.closeModal()}
+          >
+          {this.renderContent()}
+
+          <View style={styles.modalContainer}>
+              <View style={styles.innerContainer}>
+              <Button
+                    onPress={() => this.closeModal()}
+                    title="Close GitHub"
+                >
+                </Button>
+              </View>
+            </View>
+          </Modal>
+        <View>
         </View>
       </ScrollView>
     );
@@ -148,7 +204,12 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   toggleButton: {
-    flex: 1,
+    justifyContent: 'center',
+  },
+  toggleText: {
+    textAlign: 'center',
+    fontSize: 20,
+    color: 'blue',
   },
   textInputContainer: {
     padding: 50,
@@ -197,4 +258,15 @@ const styles = StyleSheet.create({
     color: '#4da6ff',
     marginRight: 20,
   },
+  container: {
+    flex: 1,
+ },
+ modalContainer: {
+  justifyContent: 'center',
+  borderColor: 'blue',
+  borderWidth: 1,
+},
+innerContainer: {
+  alignItems: 'center',
+},
 });
